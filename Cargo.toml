@@ -1,14 +1,14 @@
 [package]
 name = "decrunch-unity"
 version = "0.1.2"
+edition = "2015"
 authors = ["Istvan Fehervari <gooksl@gmail.com>"]
 description = "Decoder for crunch-compressed texture data, using the Unity fork of the crunch library."
 license = "MIT"
 build = "build.rs"
-repository = "https://github.com/ifeherva/decrunch"
-homepage = "https://github.com/ifeherva/decrunch"
+repository = "https://github.com/miwig/decrunch-unity"
+homepage = "https://github.com/miwig/decrunch-unity"
 keywords = ["crunch", "dxt", "image-processing", "texture"]
-travis-ci = { repository = "https://github.com/ifeherva/decrunch", branch = "master" }
 
 [build-dependencies]
 cc = "1.2.22"

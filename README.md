@@ -1,9 +1,8 @@
 # Decoder for crunch-compressed texture data
 [![Crates.io](https://img.shields.io/crates/v/decrunch.svg)](https://crates.io/crates/decrunch-unity)
+[![Documentation](https://docs.rs/decrunch-unity/badge.svg)](https://docs.rs/decrunch-unity)
 
 This crate provides a Rust wrapper around the [Unity fork](https://github.com/Unity-Technologies/crunch) of the crunch decompressor.
-
-[Documentation](https://docs.rs/decrunch/0.1.0/)
 
 # Example
 
