@@ -57,8 +57,13 @@ mod crunch;
 use libc::c_void;
 use std::mem;
 
-#[repr(C)]
-#[derive(Debug, PartialEq)]
+// Rust with repr(C) actually does 8 bytes here, as does the c compiler on linux
+// For a windows build (at least with cargo xwin), the c compiler will actually
+// use 4 bytes as intended, so we use repr(i32) to match. This is probably
+// the wrong way to fix this, but works and doesn't require changing the c code.
+#[cfg_attr(target_os = "windows", repr(i32))]
+#[cfg_attr(target_os = "linux", repr(C))]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum CrnFormat {
     FirstValid = -2,
     Invalid = -1,
@@ -84,6 +89,7 @@ pub enum CrnFormat {
     Dxt5A,
     Etc1,
     Total,
+    #[cfg(target_os = "linux")] // this doesn't work with repr(i32)
     ForceDWORD = 0xFFFFFFFF,
 }
 

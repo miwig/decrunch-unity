@@ -18,13 +18,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-extern crate gcc;
+extern crate cc;
+use std::env;
 
 fn main() {
-    gcc::Build::new()
+    println!("cargo::rerun-if-changed=crunch");
+    let is_windows = env::var("CARGO_CFG_WINDOWS").is_ok();
+    let mut build = cc::Build::new();
+    build
         .flag("-fno-strict-aliasing")
         .define("NDEBUG", None)
         .cpp(true)
-        .file("crunch/rust.cpp")
-        .compile("libcrunch.a");
+        .file("crunch/rust.cpp");
+
+    if is_windows {
+        build.define("WIN32", None);
+    }
+
+    build.compile("libcrunch.a");
 }
