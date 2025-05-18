@@ -1,8 +1,8 @@
 [package]
-name = "decrunch"
+name = "decrunch-unity"
 version = "0.1.2"
 authors = ["Istvan Fehervari <gooksl@gmail.com>"]
-description = "Decoder for crunch-compressed texture data."
+description = "Decoder for crunch-compressed texture data, using the Unity fork of the crunch library."
 license = "MIT"
 build = "build.rs"
 repository = "https://github.com/ifeherva/decrunch"

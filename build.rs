@@ -25,6 +25,6 @@ fn main() {
         .flag("-fno-strict-aliasing")
         .define("NDEBUG", None)
         .cpp(true)
-        .file("crunch/crn_decomp.cpp")
+        .file("crunch/rust.cpp")
         .compile("libcrunch.a");
 }
