@@ -50,13 +50,12 @@
 //! # }
 //! ```
 
-
 extern crate libc;
 
 mod crunch;
 
-use std::mem;
 use libc::c_void;
+use std::mem;
 
 #[repr(C)]
 #[derive(Debug, PartialEq)]
@@ -95,15 +94,16 @@ impl Default for CrnFormat {
 }
 
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct LevelInfo {
-    struct_size: u32,
-    width: u32,
-    height: u32,
-    faces: u32,
-    blocks_x: u32,
-    blocks_y: u32,
-    bytes_per_block: u32,
-    format: CrnFormat,
+    pub struct_size: u32,
+    pub width: u32,
+    pub height: u32,
+    pub faces: u32,
+    pub blocks_x: u32,
+    pub blocks_y: u32,
+    pub bytes_per_block: u32,
+    pub format: CrnFormat,
 }
 
 impl Default for LevelInfo {
@@ -122,16 +122,17 @@ impl Default for LevelInfo {
 }
 
 #[repr(C)]
+#[derive(Debug, PartialEq)]
 pub struct TextureInfo {
-    struct_size: u32,
-    width: u32,
-    height: u32,
-    levels: u32,
-    faces: u32,
-    bytes_per_block: u32,
-    userdata0: u32,
-    userdata1: u32,
-    format: CrnFormat,
+    pub struct_size: u32,
+    pub width: u32,
+    pub height: u32,
+    pub levels: u32,
+    pub faces: u32,
+    pub bytes_per_block: u32,
+    pub userdata0: u32,
+    pub userdata1: u32,
+    pub format: CrnFormat,
 }
 
 impl Default for TextureInfo {
@@ -183,8 +184,7 @@ impl<'a> CrunchedData<'a> {
             &mut dst,
             info.blocks_x * info.bytes_per_block,
             level,
-        )
-        {
+        ) {
             return None;
         }
         Some(dst)
