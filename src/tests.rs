@@ -28,7 +28,7 @@ use super::{CrnFormat, CrunchedData};
 fn decompress_dxt1() {
 
     let file_path = "testdata/copyright_2048_compressed_dxt1.dat";
-    let mut compressed_file = match File::open(&file_path) {
+    let mut compressed_file = match File::open(file_path) {
         Ok(f) => f,
         Err(err) => panic!(
             "Failed to open test data file at {}: {}",
@@ -76,7 +76,7 @@ fn decompress_dxt1() {
     };
 
     let file_path = "testdata/copyright_2048_decompressed_dxt1.dat";
-    let mut decompressed_file = match File::open(&file_path) {
+    let mut decompressed_file = match File::open(file_path) {
         Ok(f) => f,
         Err(err) => panic!(
             "Failed to open test data file at {}: {}",

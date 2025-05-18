@@ -18,35 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-use libc::{c_int, c_void, uint32_t, uint8_t};
+use libc::{c_int, c_void};
 use CrunchedData;
 use LevelInfo;
 use TextureInfo;
 
 extern "C" {
     fn crnd_get_level_info(
-        pData: *const uint8_t,
-        data_size: uint32_t,
-        level_index: uint32_t,
+        pData: *const u8,
+        data_size: u32,
+        level_index: u32,
         pLevel_info: *mut LevelInfo,
     ) -> c_int;
 
     fn crnd_get_texture_info(
-        pData: *const uint8_t,
-        data_size: uint32_t,
+        pData: *const u8,
+        data_size: u32,
         pTexture_info: *mut TextureInfo,
     ) -> c_int;
 
-    fn crnd_unpack_begin(pData: *const uint8_t, data_size: uint32_t) -> *const c_void;
+    fn crnd_unpack_begin(pData: *const u8, data_size: u32) -> *const c_void;
 
     fn crnd_unpack_end(ctx: *const c_void) -> c_int;
 
     fn crnd_unpack_level(
         pContext: *const c_void,
-        ppDst: *const *const uint8_t,
-        dst_size_in_bytes: uint32_t,
-        row_pitch_in_bytes: uint32_t,
-        level_index: uint32_t,
+        ppDst: *const *const u8,
+        dst_size_in_bytes: u32,
+        row_pitch_in_bytes: u32,
+        level_index: u32,
     ) -> c_int;
 }
 
@@ -55,8 +55,8 @@ pub fn get_level_info(data: &CrunchedData, level: u32) -> LevelInfo {
     unsafe {
         crnd_get_level_info(
             data.buffer.as_ptr(),
-            data.buffer.len() as uint32_t,
-            level as uint32_t,
+            data.buffer.len() as u32,
+            level as u32,
             &mut level_info as *mut LevelInfo,
         );
     }
@@ -68,7 +68,7 @@ pub fn get_texture_info(data: &CrunchedData) -> TextureInfo {
     unsafe {
         crnd_get_texture_info(
             data.buffer.as_ptr(),
-            data.buffer.len() as uint32_t,
+            data.buffer.len() as u32,
             &mut texture_info as *mut TextureInfo,
         );
     }
@@ -77,7 +77,7 @@ pub fn get_texture_info(data: &CrunchedData) -> TextureInfo {
 
 /// Decompresses the texture's decoder tables and endpoint/selector palettes.
 pub fn unpack_begin(buffer: &[u8]) -> *const c_void {
-    unsafe { crnd_unpack_begin(buffer.as_ptr(), buffer.len() as uint32_t) }
+    unsafe { crnd_unpack_begin(buffer.as_ptr(), buffer.len() as u32) }
 }
 
 pub fn unpack_level(
@@ -90,10 +90,10 @@ pub fn unpack_level(
         let ptr = dst.as_ptr();
         crnd_unpack_level(
             ctx,
-            &ptr as *const *const uint8_t,
-            dst.len() as uint32_t,
-            row_pitch_in_bytes as uint32_t,
-            level_index as uint32_t,
+            &ptr as *const *const u8,
+            dst.len() as u32,
+            row_pitch_in_bytes as u32,
+            level_index as u32,
         ) > 0
     }
 }

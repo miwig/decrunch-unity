@@ -64,8 +64,10 @@ use std::mem;
 #[cfg_attr(target_os = "windows", repr(i32))]
 #[cfg_attr(target_os = "linux", repr(C))]
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Default)]
 pub enum CrnFormat {
     FirstValid = -2,
+    #[default]
     Invalid = -1,
     Dxt1 = 0,
     /// cCRNFmtDXT3 is not currently supported when writing to CRN - only DDS.
@@ -93,11 +95,6 @@ pub enum CrnFormat {
     ForceDWORD = 0xFFFFFFFF,
 }
 
-impl Default for CrnFormat {
-    fn default() -> CrnFormat {
-        CrnFormat::Invalid
-    }
-}
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -165,7 +162,7 @@ pub struct CrunchedData<'a> {
 impl<'a> CrunchedData<'a> {
     pub fn new(buffer: &'a [u8]) -> Self {
         CrunchedData {
-            buffer: buffer,
+            buffer,
             ctx: crunch::unpack_begin(buffer),
         }
     }
@@ -197,7 +194,7 @@ impl<'a> CrunchedData<'a> {
     }
 }
 
-impl<'a> Drop for CrunchedData<'a> {
+impl Drop for CrunchedData<'_> {
     fn drop(&mut self) {
         crunch::unpack_end(self.ctx);
     }
